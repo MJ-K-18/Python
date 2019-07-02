@@ -1,6 +1,6 @@
 '''
    Hello.py
-   문자열 주석1
+   문자열 주석
 '''
 def hello():
     print( 'Hello, World' )
