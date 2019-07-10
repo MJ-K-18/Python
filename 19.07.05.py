@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #함수 정의
 def func1():               # 인수 없고, return 값도 없는 경우
     print( ' functional' )
@@ -171,7 +171,3 @@ print( my_compare( 'apple', 'orange' ) )
 print( my_compare( 'apple', 'aPple' ) )
 
 
-
-
-
->>>>>>> bb151931495707a0cbffd450015c799fa0aa3ed5
