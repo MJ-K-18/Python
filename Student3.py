@@ -73,7 +73,7 @@ class StudentInfo:
         return str
 
 class ScoreCard():
-    MAX = 50
+    MAX = 10
     count_person = 0
 
     def __init__( self ):
@@ -96,6 +96,10 @@ class ScoreCard():
             s.append( self.scoreCard[ key ] )
         return str( s )
 
+    def inputprint( self ):
+        return list( self.scoreCard.values() )
+
+
 def main():
     scoreCard = ScoreCard()
 
@@ -109,5 +113,35 @@ def main():
     print()
     scoreCard.printScoreCard()
 
+def main2():
+    scoreCard = ScoreCard()
+
+    count = 0
+
+    name = input( '학생 이름 입력 ( "end" : quit ) : ' )
+    while name != 'end' and count < ScoreCard.MAX:
+        count = count + 1
+        subjects = []
+
+        for x in range( StudentInfo.SUBJECT_MAX ):
+            subject = int( input( '{0:2} 과목중 {1:2} 번째 과목 성적 입력 : '.format( StudentInfo.SUBJECT_MAX, x + 1 ) ) )
+            while ( subject < 0 or subject > 100 ):
+                print( '\nError : 점수는 0 ~ 100 입니다...\n다시 입력 하십시요...\n' )
+                subject = int( input( '{0:2} 과목중 {1:2} 번째 과목 성적 입력 : '.format( StudentInfo.SUBJECT_MAX, x + 1 ) ) )
+
+            subjects.append( subject )
+
+        scoreCard.writeScoreCard( name, subjects[ 0 ], subjects[ 1 ], subjects[ 2 ] )
+        
+        name = input( '\n학생 이름 입력 ( "end" : quit ) : ' )
+
+    print()
+    studentInfo = scoreCard.inputprint()
+    for student in studentInfo:
+        print( student )
+    print( '\ncount student : {0:2}'.format( ScoreCard.count_person ) )
+
+
 if __name__ == '__main__':
     main()
+    main2()
