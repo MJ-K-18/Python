@@ -1,0 +1,5 @@
+hong       computer             50  50 		     50  50  50   250  50.00  3 Fail      
+kim        electronic           90  90  90 		    90  90  90   540  90.00  1 Excellent 
+nam        computer             70  70 		     70  70  70   350  70.00  2           
+
+count student :  3

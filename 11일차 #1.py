@@ -1,3 +1,18 @@
+'''
+    11일차 실습 #1
+
+    1. 다음과 같이 출력하는 프로그램을 class를 작성하여 완성하세요.
+    ( 10명이내 이름이 'end'이면 결과 출력, 90이상 Excellent 60이하 Fail )
+    ( 상속과 control/entity class 형태로 구성 )
+    학생정보를 상속받는 클래스를 하나로 하고, 학과 정보를 별도의 클래스로
+    관리한다.
+   
+                            전공       공통
+        Hong  computer     50 50    50 50 50 250 50.0  3 Fail
+        Kim   Electronic   90 90 90 90 90 90 540 90.0  1 Excellent
+        Nam   computer     70 70    70 70 70 350 70.0  2
+'''
+
 
 
 class StudentInfo:
@@ -30,17 +45,69 @@ class StudentInfo:
         s = '{0:<10} {1:<20}'.format( self.name, self.majorname )
         return s
 
-class MajorCom( StudentInfo ):
-    SUBJECT_MAX = 2
+class MajorInfo:
+    
+    def __init__( self, majorname, majorsubjectmax ):
+        self.majorname = majorname
+        self.majorsubjectmax = majorsubjectmax
 
-    def __init__( self, name = None, majorname = None, subjects = 0, m_subjects = 0 ):
-        
-        super().__init__( name, majorname, subjects )
-        self.m_subjects = [ v for v in m_subjects ]
+    def getMajorName( self ):
+        return self.majorname
+
+    def getMajorSubjectMax( self ):
+        return self.majorsubjectmax
+
+    def readMajorInfo( self ):
+        return self.majorname, self.majorsubjectmax
+
+    def readMajorSubjectMax( self ):
+        return self.majorsubjectmax
+
+    def __repr__( self ):
+        s = '{0:20} {1:2}'.format( self.majorname, self.majorsubjectmax )
+
+        return s
+
+class MajorTable:
+
+    def __init__( self ):
+        self.majors = {}
+        self.majorCount = 0
+
+    def getMajorCount( self ):
+        return self.majorCount
+
+    def isMajorInfo( self, key ):
+        return self.majors.get( key, False )
+
+    def readmajorInfo( self, key ):
+        return self.majors[ key ].readmajorInfo()
+
+    def readMajorSubjectMax( self, key ):
+        return self.majors[ key ].readMajorSubjectMax()
+
+    def writemajorInfo( self, major ):
+        self.majors[ major.getmajorName() ] = major
+        self.majorCount += 1 
+
+    def printMajorInfos( self ):
+        keys = self.major.keys()
+        for key in keys:
+            print( self.majors[ key ] )
+
+class MajorStudentInfo( StudentInfo ):
+
+     def __init__( self, name, major, majorsubjectmax, subjects, m_subjects ): 
+        super().__init__( name, major, common_subjects )  
+        self.majorsubjectmax = majorsubjectmax     
+        self.major_subjects = [ v for v in major_subjects ]
         self.calcScore()
 
-    def getM_Subjects( self ):
-        return self.subject1
+    def getMajorSubjectMax( self ):
+        return self.majorsubjectmax
+
+    def getComputerSubjects( self ):
+        return self.m_subjects
 
     def getAverage( self ):
         return self.average
@@ -51,7 +118,8 @@ class MajorCom( StudentInfo ):
     def calcScore( self ):
         self.total = super().calcScore()
         self.total = self.total + sum( [ v for v in self.m_subjects ] )
-        self.average = self.total / ( StudentInfo.SUBJECT_MAX + MajorCom.SUBJECT_MAX )
+        
+        self.average = self.total / ( StudentInfo.SUBJECT_MAX + self.majorsubjectmax )
         
         if self.average >= StudentInfo.EXCELLENT_BASE:
             self.grade = 'Excellent'
@@ -61,68 +129,23 @@ class MajorCom( StudentInfo ):
             self.grade = ''
 
     def readStudentInfo( self ):
-        return super().readStudentInfo, self.subjects, self.m_subjects, self.total, self.average, self.grade
+        return super().readStudentInfo(), tuple( self.subjects ), tuple( self.m_ubjects ), self.total, self.average, self.grade
 
     def __repr__( self ):
         s = super().__repr__()
-        s = s + '{0:3} {1:3} {2:7} {3:3} {4:3} {5:5} {6:6.2f} {7:2} {8:<10}'.format( self.m_subjects[ 0 ],
-                                                                                    self.m_subjects[ 1 ],
-                                                                                    self.subjects[ 0 ],
-                                                                                    self.subjects[ 1] ,
-                                                                                    self.subjects[ 2 ],
-                                                                                    self.total,
-                                                                                    self.average,
-                                                                                    self.rank,
-                                                                                    self.grade )
+        spaces = '          '
+        for i in range( self.majorsubjectmax ):
+            s = s + '{0:3} '.format( self.major_subjects[ i ] )
+        s = s + '\t\t' + spaces[ self.majorsubjectmax::self.majorsubjectmax ]        
+        s = s + '{0:3} {1:3} {2:3} {3:5} {4:6.2f} {5:2} {6:<10}'.format( self.subjects[ 0 ],
+                                                                         self.subjects[ 1 ],
+                                                                         self.subjects[ 2 ],
+                                                                         self.total,
+                                                                         self.average,
+                                                                         self.rank,
+                                                                         self.grade )
         return s
-
-class MajorElec( StudentInfo ):
-    SUBJECT_MAX = 3
-
-    def __init__( self, name = None, majorname = None, subjects = 0, m_subjects = 0 ):
         
-        super().__init__( name, majorname, subjects )
-        self.m_subjects = [ v for v in m_subjects ]
-        self.calcScore()
-
-    def getM_Subjects( self ):
-        return self.subjects
-
-    def getAverage( self ):
-        return self.average
-
-    def setRank( self, rank ):
-        self.rank = rank
-
-    def calcScore( self ):
-        self.total = super().calcScore()
-        self.total = self.total + sum( [ v for v in self.m_subjects ] )
-        self.average = self.total / ( StudentInfo.SUBJECT_MAX + MajorElec.SUBJECT_MAX )
-        
-        if self.average >= StudentInfo.EXCELLENT_BASE:
-            self.grade = 'Excellent'
-        elif self.average < StudentInfo.FAIL_BASE:
-            self.grade = 'Fail'
-        else:
-            self.grade = ''
-
-
-    def readStudentInfo( self ):
-        return super().readStudentInfo, self.subjects, self.m_subjects, self.total, self.average, self.grade
-
-    def __repr__( self ):
-        s = super().__repr__()
-        s = s + '{0:3} {1:3} {2:3} {3:3} {4:3} {5:3} {6:5} {7:6.2f} {8:2} {9:<10}'.format( self.m_subjects[ 0 ],
-                                                                                    self.m_subjects[ 1 ],
-                                                                                    self.m_subjects[ 2 ],
-                                                                                    self.subjects[ 0 ],
-                                                                                    self.subjects[ 1] ,
-                                                                                    self.subjects[ 2 ],
-                                                                                    self.total,
-                                                                                    self.average,
-                                                                                    self.rank,
-                                                                                    self.grade )
-        return s
 
 class ScoreTable:
 

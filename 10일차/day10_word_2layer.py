@@ -131,8 +131,7 @@ def main():
             print( '\nError : 단어의 글자수는 최대 {0:2}글자 단어만 입력하세요...\n'.format( Word.MEANING_LENGTH ) )
             word_meaning = input( '"{0:<10}" 단어의 최대 {1:10}글자 뜻 입력 : '.format( word_name, Word.MEANING_LENGTH ) )
 
-        wordbook.
-        ( word_name, word_class, word_meaning )
+        wordbook.writeWord( word_name, word_class, word_meaning )
     
         word_name = input( '\n최대 {0:2}글자의 단어를 입력 ( "0" : quit ) : '.format( Word.WORD_LENGTH ) )
         while len( word_name ) < 1 or len( word_name ) > Word.WORD_LENGTH:
