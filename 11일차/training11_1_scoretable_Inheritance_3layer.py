@@ -358,7 +358,7 @@ class ScoreTableUI:
         for studentInfo in self.studentInfos:
             print( studentInfo )
         print( '\ncount student : {0:2}'.format( ScoreTable.count_student ) )
-
+        print( self.studentInfos[ 0 ] + self.studentInfos[ 1 ] )
         input( '\nPress any key to program stop...' ) 
 
 def main():
@@ -373,6 +373,8 @@ def main():
         scoreTableUI.printScoreTable()
     else:
         print( '학과 정보가 없으므로 프로그램을 종료합니다...' )
+   
 
 if __name__ == '__main__':
     main() 
+

@@ -1,5 +1,2 @@
 apple,명사,사과,
-work,동사,일하다,
-banana,명사,바나나,
-eat,동사,먹다,
-sleep,동사,자다,
+banana,명사ㅣ,바나나,
